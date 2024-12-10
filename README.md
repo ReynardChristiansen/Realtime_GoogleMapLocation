@@ -15,7 +15,6 @@ This project implements a real-time location tracking system where coordinates (
     3. Open terminal and run "npm install"
     4. Open live Server
     5. Open terminal and run "npm run dev"
-    6. Open "http://localhost:4000"
 
 ## Current Issues:
 **Frequent Polling**: The current approach fetches the location every 10 seconds, even if the location hasn't changed. This is inefficient and causes unnecessary map updates and network resouces.
@@ -23,3 +22,7 @@ This project implements a real-time location tracking system where coordinates (
 ## Next Steps & Future Implementation:
 - **WebSocket for Real-Time Data**: Switch from the current polling method to using WebSocket for receiving real-time location updates. This will reduce unnecessary fetch calls and provide more efficient and real-time communication.
 - **Location Update Validation**: Introduce a validation mechanism that will check if the user's location or status has changed before updating the map. This will prevent unnecessary updates to the map when the data is the same as before.
+
+## result
+
+![image alt](https://github.com/ReynardChristiansen/Realtime_GoogleMapLocation/blob/main/result.png?raw=true)
