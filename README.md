@@ -12,10 +12,10 @@ This project implements a real-time location tracking system where coordinates (
 ## Running the Application
     1. Start zookeeper & kafka Server
     2. Git clone this repositories
-    3. npm install
+    3. Open terminal and run "npm install"
     4. Open live Server
-    5. Open terminal and run npm run dev
-    6. Open http://localhost:4000
+    5. Open terminal and run "npm run dev"
+    6. Open "http://localhost:4000"
 
 ## Current Issues:
 **Frequent Polling**: The current approach fetches the location every 10 seconds, even if the location hasn't changed. This is inefficient and causes unnecessary map updates and network resouces.
