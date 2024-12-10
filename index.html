@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geolocation Example</title>
+    <script type="module" src="/script.js"></script>
+  </head>
+
+  <body>
+    <div style="width: 100%; height: 200px">
+      <iframe
+        id="mapIframe"
+        width="100%"
+        height="600px"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+      ></iframe>
+    </div>
+
+    <script>
+      function getFirstLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              const message = `${latitude},${longitude}`;
+
+              const mapIframe = document.getElementById("mapIframe");
+              mapIframe.src = `https://maps.google.com/maps?width=100%25&height=100%25&hl=en&q=${message}&t=&z=19&ie=UTF8&iwloc=B&output=embed`;
+            },
+            function (error) {
+              console.log(error);
+            }
+          );
+        }
+      }
+
+      getFirstLocation();
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              const message = `${latitude},${longitude}`;
+
+              sendLocationToBackend(message);
+            },
+            function (error) {
+              console.log(error);
+            }
+          );
+        }
+      }
+
+      async function sendLocationToBackend(message) {
+        const data = { message: message };
+        try {
+          const response = await fetch("http://localhost:4000/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+          console.log("Server response:", result);
+        } catch (error) {
+          console.error("Error sending location to backend:", error);
+        }
+      }
+
+      async function fetchLatestLocation() {
+        try {
+          const response = await fetch(
+            "http://localhost:4000/api/users/latest-location"
+          );
+          const data = await response.json();
+
+          if (data.location) {
+
+            const [latitude, longitude] = data.location.split(",");
+
+            const mapIframe = document.getElementById("mapIframe");
+            mapIframe.src = `https://maps.google.com/maps?width=100%25&height=100%25&hl=en&q=${latitude},${longitude}&t=&z=19&ie=UTF8&iwloc=B&output=embed`;
+          }
+        } catch (error) {
+          console.error("Error fetching latest location:", error);
+        }
+      }
+
+      setInterval(getLocation, 10000);
+      setInterval(fetchLatestLocation, 10000);
+    </script>
+  </body>
+</html>
